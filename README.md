@@ -1,8 +1,8 @@
-# recentfm.js
+# Septembed
 
-Embed your most recently played track from Last.fm.
+Embed your St Jude Fundraising Campaign on your website
 
-[https://recentfm.rknight.me/](https://recentfm.rknight.me/)
+[https://septembed.rknight.me/](https://septembed.rknight.me/)
 
 ## Dev
 
