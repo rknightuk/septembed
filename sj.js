@@ -38,6 +38,7 @@ const stylesheet = `
     left: 5px;
     bottom: 0;
     color: white;
+    text-align: left;
 }
 `
 
