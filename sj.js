@@ -30,6 +30,15 @@ const stylesheet = `
     align-items: center;
     color: white;
 }
+
+.sj-progress-text {
+    position: absolute;
+    top: 3px;
+    right: 0;
+    left: 5px;
+    bottom: 0;
+    color: white;
+}
 `
 
 const darkMode = `
@@ -79,13 +88,20 @@ if (params.u)
         container.append(subtitle)
 
         progressWrap = document.createElement('div')
-        progressWrap.style = 'position:relative;height:25px;background:rgb(189, 195, 199, 0.4);border-radius:15px;'
+        progressWrap.style = 'position:relative;height:25px;background:rgb(189, 195, 199, 0.6);border-radius:15px;'
 
         progress = document.createElement('div')
         progress.className = 'sj-progress'
-        progress.innerHTML = ` ${data.raised} &bull; ${data.percentage}%`
+        // progress.innerHTML = ` ${data.raised} &bull; ${data.percentage}%`
         progress.style = `width:${data.percentage}%;`
+
+        progressText = document.createElement('div')
+        progressText.className = 'sj-progress-text'
+        progressText.innerHTML = ` ${data.raised} &bull; ${data.percentage}%`
+        // progressText.style = `width:${data.percentage}%;`
+
         progressWrap.append(progress)
+        progressWrap.append(progressText)
         container.append(progressWrap)
 
         styles = document.createElement('style')
