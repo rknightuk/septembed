@@ -84,7 +84,7 @@ if (params.u)
 
         subtitle = document.createElement('p')
         subtitle.className = 'sj-subtitle'
-        subtitle.style = 'margin-top: 0;'
+        subtitle.style = 'margin-top: 0;margin-bottom:10px'
         subtitle.innerHTML = 'Raising money for St Jude Children\'s Research Hospital this September'
         container.append(subtitle)
 
