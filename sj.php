@@ -3,6 +3,7 @@
 require 'vendor/autoload.php';
 
 use GuzzleHttp\Client;
+use Phpfastcache\Helper\Psr16Adapter;
 
 header('Access-Control-Allow-Origin: *');
 header("Content-Type: application/json");
@@ -417,32 +418,40 @@ $slug = $_GET['slug'] ?? 'relay-fm';
 $vanity = $_GET['vanity'] ?? '@relay-fm';
 $theme = $_GET['mode'] ?? 'light';
 
-$variables = [
-    'vanity' => $vanity,
-    'slug' => $slug,
-];
+$key = str_replace($vanity . $slug, '@', '');
+$Psr16Adapter = new Psr16Adapter('Files');
 
-$data = getData($variables);
+if (!$Psr16Adapter->has($key)) {
+    $variables = [
+        'vanity' => $vanity,
+        'slug' => $slug,
+    ];
 
-if (isset($data['errors']))
-{
-    $data = getData([
-        'vanity' => '@relay-fm',
-        'slug' => 'relay-fm',
-    ]);
+    $data = getData($variables);
+
+    if (isset($data['errors'])) {
+        $data = getData([
+            'vanity' => '@relay-fm',
+            'slug' => 'relay-fm',
+        ]);
+    }
+
+    $goal = $data['data']['campaign']['goal']['value'];
+    $raised = $data['data']['campaign']['totalAmountRaised']['value'];
+    $currency = '$';
+
+    $data = [
+        'title' => $data['data']['campaign']['name'],
+        'url' => sprintf('https://tiltify.com/@%s/%s', $data['data']['campaign']['user']['username'], $data['data']['campaign']['slug']),
+        'goal' => $currency . $goal,
+        'raised' => $currency . $raised,
+        'percentage' => ($goal > 0 && $raised > 0) ? number_format((($raised / $goal) * 100), 2) : null,
+        'mode' => $theme,
+    ];
+
+    $Psr16Adapter->set($key, $data, 600);
+} else {
+    $data = $Psr16Adapter->get($key);
 }
-
-$goal = $data['data']['campaign']['goal']['value'];
-$raised = $data['data']['campaign']['totalAmountRaised']['value'];
-$currency = '$';
-
-$data = [
-    'title' => $data['data']['campaign']['name'],
-    'url' => sprintf('https://tiltify.com/@%s/%s', $data['data']['campaign']['user']['username'], $data['data']['campaign']['slug']),
-    'goal' => $currency . $goal,
-    'raised' => $currency . $raised,
-    'percentage' => ($goal > 0 && $raised > 0) ? number_format((($raised / $goal) * 100), 2) : null,
-    'mode' => $theme,
-];
 
 echo json_encode($data);
