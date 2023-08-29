@@ -30,14 +30,6 @@ const stylesheet = `
     align-items: center;
     color: white;
 }
-
-.sj-goal {
-    position: absolute;
-    right: 5px;
-    top: 4px;
-    color: black;
-    font-size: 0.9em;
-}
 `
 
 const darkMode = `
@@ -88,11 +80,10 @@ if (params.u)
 
         progressWrap = document.createElement('div')
         progressWrap.style = 'position:relative;height:25px;background:rgb(189, 195, 199, 0.4);border-radius:15px;'
-        progressWrap.innerHTML = `<div class="sj-goal">${data.goal}</div>`
 
         progress = document.createElement('div')
         progress.className = 'sj-progress'
-        progress.innerHTML = ` ${data.raised}`
+        progress.innerHTML = ` ${data.raised} / ${data.percentage}%;`
         progress.style = `width:${data.percentage}%;`
         progressWrap.append(progress)
         container.append(progressWrap)
