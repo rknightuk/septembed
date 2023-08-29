@@ -83,7 +83,7 @@ if (params.u)
 
         progress = document.createElement('div')
         progress.className = 'sj-progress'
-        progress.innerHTML = ` ${data.raised} / ${data.percentage}%;`
+        progress.innerHTML = ` ${data.raised} / ${data.percentage}%`
         progress.style = `width:${data.percentage}%;`
         progressWrap.append(progress)
         container.append(progressWrap)
