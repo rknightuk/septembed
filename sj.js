@@ -2,7 +2,7 @@ const septembedCurrentScript = document.currentScript
 const septembedUrlParams = new URLSearchParams(septembedCurrentScript.src.split('.js')[1])
 const septembedParams = Object.fromEntries(septembedUrlParams.entries())
 
-const stylesheet = `
+const septembedStylesheet = `
 .sj-container {
     padding:10px;
     border-radius:20px;
@@ -42,7 +42,7 @@ const stylesheet = `
 }
 `
 
-const darkMode = `
+const septembedDarkMode = `
 .sj-container {
     background:black;
     color:white;
@@ -50,7 +50,7 @@ const darkMode = `
 }
 `
 
-const lightMode = `
+const septembedLightMode = `
 .sj-container {
     background: #fddb73;
     color:black;
@@ -58,9 +58,9 @@ const lightMode = `
 }
 `
 
-const themes = {
-    dark: darkMode,
-    light: lightMode
+const septembedThemes = {
+    dark: septembedDarkMode,
+    light: septembedLightMode
 }
 
 let vanity = null
@@ -74,8 +74,8 @@ if (septembedParams.u)
     slug = parts[1]
 }
 
-const path = `https://septembed.rknight.me/sj.php?vanity=${vanity}&slug=${slug}`
-fetch(path)
+const septembedPath = `https://septembed.rknight.me/sj.php?vanity=${vanity}&slug=${slug}`
+fetch(septembedPath)
 .then((response) => response.json())
 .then((data) => {
     container = document.createElement('a')
@@ -113,8 +113,8 @@ fetch(path)
     container.append(progressWrap)
 
     styles = document.createElement('style')
-    styles.innerHTML = stylesheet
-    styles.innerHTML += themes[data.mode]
+    styles.innerHTML = septembedStylesheet
+    styles.innerHTML += septembedThemes[data.mode]
 
     septembedCurrentScript.parentNode.insertBefore(styles, septembedCurrentScript)
     septembedCurrentScript.parentNode.insertBefore(container, septembedCurrentScript)
