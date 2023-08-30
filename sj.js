@@ -1,6 +1,6 @@
 const septembedCurrentScript = document.currentScript
 const septembedUrlParams = new URLSearchParams(septembedCurrentScript.src.split('.js')[1])
-const params = Object.fromEntries(septembedUrlParams.entries())
+const septembedParams = Object.fromEntries(septembedUrlParams.entries())
 
 const stylesheet = `
 .sj-container {
@@ -66,9 +66,9 @@ const themes = {
 let vanity = null
 let slug = null
 
-if (params.u)
+if (septembedParams.u)
 {
-    const url = new URL(params.u)
+    const url = new URL(septembedParams.u)
     const parts = url.pathname.split('/').filter(p => p)
     vanity = parts[0]
     slug = parts[1]
