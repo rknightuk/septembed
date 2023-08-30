@@ -63,53 +63,59 @@ const themes = {
     light: lightMode
 }
 
+let vanity = null
+let slug = null
+
 if (params.u)
 {
     const url = new URL(params.u)
-    const [vanity, slug] = url.pathname.split('/').filter(p => p)
-    const path = `https://septembed.rknight.me/sj.php?vanity=${vanity}&slug=${slug}`
-    fetch(path)
-    .then((response) => response.json())
-    .then((data) => {
-        container = document.createElement('a')
-        container.className = 'sj-container'
-        container.href = data.url
-        container.target = '_blank'
-
-        title = document.createElement('p')
-        title.className = 'sj-title'
-        title.style = 'margin-top: 0;margin-bottom:5px;font-weight:bold'
-        title.innerHTML = `${data.title}<br style="margin-bottom:5px;">`
-        container.append(title)
-
-        subtitle = document.createElement('p')
-        subtitle.className = 'sj-subtitle'
-        subtitle.style = 'margin-top: 0;margin-bottom:10px'
-        subtitle.innerHTML = 'Raising money for St Jude Children\'s Research Hospital this September'
-        container.append(subtitle)
-
-        progressWrap = document.createElement('div')
-        progressWrap.style = 'position:relative;height:25px;background:rgb(189, 195, 199, 0.6);border-radius:15px;'
-
-        progress = document.createElement('div')
-        progress.className = 'sj-progress'
-        // progress.innerHTML = ` ${data.raised} &bull; ${data.percentage}%`
-        progress.style = `width:${data.percentage}%;`
-
-        progressText = document.createElement('div')
-        progressText.className = 'sj-progress-text'
-        progressText.innerHTML = ` ${data.raised} &bull; ${data.percentage}%`
-        // progressText.style = `width:${data.percentage}%;`
-
-        progressWrap.append(progress)
-        progressWrap.append(progressText)
-        container.append(progressWrap)
-
-        styles = document.createElement('style')
-        styles.innerHTML = stylesheet
-        styles.innerHTML += themes[data.mode]
-
-        nowCurrentScript.parentNode.insertBefore(styles, nowCurrentScript)
-        nowCurrentScript.parentNode.insertBefore(container, nowCurrentScript)
-    })
+    const parts = url.pathname.split('/').filter(p => p)
+    vanity = parts[0]
+    slug = parts[1]
 }
+
+const path = `https://septembed.rknight.me/sj.php?vanity=${vanity}&slug=${slug}`
+fetch(path)
+.then((response) => response.json())
+.then((data) => {
+    container = document.createElement('a')
+    container.className = 'sj-container'
+    container.href = data.url
+    container.target = '_blank'
+
+    title = document.createElement('p')
+    title.className = 'sj-title'
+    title.style = 'margin-top: 0;margin-bottom:5px;font-weight:bold'
+    title.innerHTML = `${data.title}<br style="margin-bottom:5px;">`
+    container.append(title)
+
+    subtitle = document.createElement('p')
+    subtitle.className = 'sj-subtitle'
+    subtitle.style = 'margin-top: 0;margin-bottom:10px'
+    subtitle.innerHTML = 'Raising money for St Jude Children\'s Research Hospital this September'
+    container.append(subtitle)
+
+    progressWrap = document.createElement('div')
+    progressWrap.style = 'position:relative;height:25px;background:rgb(189, 195, 199, 0.6);border-radius:15px;'
+
+    progress = document.createElement('div')
+    progress.className = 'sj-progress'
+    // progress.innerHTML = ` ${data.raised} &bull; ${data.percentage}%`
+    progress.style = `width:${data.percentage}%;`
+
+    progressText = document.createElement('div')
+    progressText.className = 'sj-progress-text'
+    progressText.innerHTML = ` ${data.raised} &bull; ${data.percentage}%`
+    // progressText.style = `width:${data.percentage}%;`
+
+    progressWrap.append(progress)
+    progressWrap.append(progressText)
+    container.append(progressWrap)
+
+    styles = document.createElement('style')
+    styles.innerHTML = stylesheet
+    styles.innerHTML += themes[data.mode]
+
+    nowCurrentScript.parentNode.insertBefore(styles, nowCurrentScript)
+    nowCurrentScript.parentNode.insertBefore(container, nowCurrentScript)
+})

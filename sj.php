@@ -8,6 +8,289 @@ use Phpfastcache\Helper\Psr16Adapter;
 header('Access-Control-Allow-Origin: *');
 header("Content-Type: application/json");
 
+function getRelay()
+{
+  $operationName = 'get_team_event_by_vanity_and_slug';
+  $query = 'query get_team_event_by_vanity_and_slug($vanity: String!, $slug: String!) {
+  teamEvent(vanity: $vanity, slug: $slug) {
+    publicId
+    legacyCampaignId
+    name
+    slug
+    currentSlug
+    status
+    templateId
+    publishedAt
+    supportingCampaignCount
+    colors {
+      background
+    }
+    visibility {
+      donate
+      fePageCampaigns
+      goal
+      raised
+      teamEventStats
+      toolkit {
+        url
+        visible
+      }
+    }
+    parentTeamEvent {
+      slug
+    }
+    originalGoal {
+      value
+      currency
+    }
+    supportingType
+    team {
+      id
+      publicId
+      avatar {
+        src
+        alt
+      }
+      name
+      slug
+      memberCount
+    }
+    cause {
+      id
+      publicId
+      name
+      slug
+      description
+      avatar {
+        alt
+        height
+        width
+        src
+      }
+      paymentMethods {
+        type
+        currency
+        sellerId
+        minimumAmount {
+          currency
+          value
+        }
+      }
+      paymentOptions {
+        currency
+        additionalDonorDetails
+        additionalDonorDetailsType
+        monthlyGiving
+        monthlyGivingMinimumAmount
+        minimumAmount
+      }
+    }
+    fundraisingEvent {
+      publicId
+      legacyFundraisingEventId
+      name
+      slug
+      avatar {
+        alt
+        height
+        width
+        src
+      }
+      paymentMethods {
+        type
+        currency
+        sellerId
+        minimumAmount {
+          currency
+          value
+        }
+      }
+      paymentOptions {
+        currency
+        additionalDonorDetails
+        additionalDonorDetailsType
+        monthlyGiving
+        minimumAmount
+      }
+    }
+    supporting {
+      cause {
+        id
+        publicId
+        name
+        slug
+        description
+        avatar {
+          alt
+          height
+          width
+          src
+        }
+        paymentMethods {
+          type
+          currency
+          sellerId
+          minimumAmount {
+            currency
+            value
+          }
+        }
+        paymentOptions {
+          currency
+          additionalDonorDetails
+          additionalDonorDetailsType
+          monthlyGiving
+          monthlyGivingMinimumAmount
+          minimumAmount
+        }
+      }
+      fundraisingEvent {
+        publicId
+        legacyFundraisingEventId
+        name
+        slug
+        avatar {
+          alt
+          height
+          width
+          src
+        }
+        paymentMethods {
+          type
+          currency
+          sellerId
+          minimumAmount {
+            currency
+            value
+          }
+        }
+        paymentOptions {
+          currency
+          additionalDonorDetails
+          additionalDonorDetailsType
+          monthlyGiving
+          minimumAmount
+        }
+      }
+    }
+    description
+    totalAmountRaised {
+      currency
+      value
+    }
+    goal {
+      currency
+      value
+    }
+    avatar {
+      alt
+      height
+      width
+      src
+    }
+    banner {
+      alt
+      height
+      width
+      src
+    }
+    livestream {
+      type
+      channel
+    }
+    milestones {
+      publicId
+      name
+      amount {
+        value
+        currency
+      }
+      updatedAt
+    }
+    schedules {
+      publicId
+      name
+      description
+      startsAt
+      endsAt
+      updatedAt
+    }
+    rewards {
+      active
+      promoted
+      fulfillment
+      amount {
+        currency
+        value
+      }
+      name
+      image {
+        src
+      }
+      fairMarketValue {
+        currency
+        value
+      }
+      legal
+      description
+      publicId
+      startsAt
+      endsAt
+      quantity
+      remaining
+      updatedAt
+    }
+    challenges {
+      publicId
+      amount {
+        currency
+        value
+      }
+      name
+      active
+      endsAt
+      amountRaised {
+        currency
+        value
+      }
+      updatedAt
+    }
+    updatedAt
+  }
+}';
+
+  $variables = [
+    'vanity' => '+relay-fm',
+    'slug' => 'relay-fm-for-st-jude-2023',
+  ];
+
+  $response = (new Client)->request('post', 'https://api.tiltify.com/', [
+    'headers' => [
+      'Content-Type' => 'application/json'
+    ],
+    'body' => json_encode([
+      'query' => $query,
+      'operationName' => $operationName,
+      'variables' => $variables,
+    ])
+  ]);
+
+  $data = json_decode($response->getBody()->getContents(), true);
+
+  $goal = $data['data']['teamEvent']['goal']['value'];
+  $raised = $data['data']['teamEvent']['totalAmountRaised']['value'];
+  $currency = '$';
+
+  return [
+    'title' => 'Relay FM for St. Jude 2023',
+    'url' => 'https://relay.experience.stjude.org/',
+    'goal' => $currency . $goal,
+    'raised' => $currency . $raised,
+    'percentage' => ($goal > 0 && $raised > 0) ? number_format((($raised / $goal) * 100), 2) : null,
+    'mode' => 'light',
+  ];
+}
+
 function getData($variables)
 {
     $operationName = 'get_campaign_by_vanity_and_slug';
@@ -414,14 +697,19 @@ function getData($variables)
     return $data;
 }
 
-$slug = $_GET['slug'] ?? 'relay-fm';
-$vanity = $_GET['vanity'] ?? '@relay-fm';
+$slug = $_GET['slug'] ?? null;
+$vanity = $_GET['vanity'] ?? null;
 $theme = $_GET['mode'] ?? 'light';
 
-$key = str_replace($vanity . $slug, '@', '');
+$key = str_replace($vanity . $slug, '@', 'sadfdsafdsfdsf');
 $Psr16Adapter = new Psr16Adapter('Files');
 
 if (!$Psr16Adapter->has($key)) {
+    if (is_null($vanity) && !is_null($slug))
+    {
+      echo json_encode(getRelay());
+      die;
+    }
     $variables = [
         'vanity' => $vanity,
         'slug' => $slug,
@@ -430,10 +718,8 @@ if (!$Psr16Adapter->has($key)) {
     $data = getData($variables);
 
     if (isset($data['errors'])) {
-        $data = getData([
-            'vanity' => '@relay-fm',
-            'slug' => 'relay-fm',
-        ]);
+        echo json_encode(getRelay());
+        die;
     }
 
     $goal = $data['data']['campaign']['goal']['value'];
