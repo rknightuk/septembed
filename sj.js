@@ -1,6 +1,6 @@
 const septembedCurrentScript = document.currentScript
-const urlParams = new URLSearchParams(septembedCurrentScript.src.split('.js')[1])
-const params = Object.fromEntries(urlParams.entries())
+const septembedUrlParams = new URLSearchParams(septembedCurrentScript.src.split('.js')[1])
+const params = Object.fromEntries(septembedUrlParams.entries())
 
 const stylesheet = `
 .sj-container {
