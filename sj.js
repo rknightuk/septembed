@@ -1,5 +1,5 @@
-const nowCurrentScript = document.currentScript
-const urlParams = new URLSearchParams(nowCurrentScript.src.split('.js')[1])
+const septembedCurrentScript = document.currentScript
+const urlParams = new URLSearchParams(septembedCurrentScript.src.split('.js')[1])
 const params = Object.fromEntries(urlParams.entries())
 
 const stylesheet = `
@@ -116,6 +116,6 @@ fetch(path)
     styles.innerHTML = stylesheet
     styles.innerHTML += themes[data.mode]
 
-    nowCurrentScript.parentNode.insertBefore(styles, nowCurrentScript)
-    nowCurrentScript.parentNode.insertBefore(container, nowCurrentScript)
+    septembedCurrentScript.parentNode.insertBefore(styles, septembedCurrentScript)
+    septembedCurrentScript.parentNode.insertBefore(container, septembedCurrentScript)
 })
