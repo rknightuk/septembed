@@ -7,7 +7,7 @@ const septembedStylesheet = `
     padding:10px;
     border-radius:20px;
     display:block;
-    text-decoration:none;
+    text-decoration:none!important;
     transition: background 1s ease;
 }
 
