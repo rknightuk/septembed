@@ -701,11 +701,11 @@ $slug = $_GET['slug'] ?? null;
 $vanity = $_GET['vanity'] ?? null;
 $theme = $_GET['mode'] ?? 'light';
 
-$key = str_replace($vanity . $slug, '@', 'sadfdsafdsfdsf');
+$key = str_replace('@', '', $vanity . $slug) ?: 'relayfmmaincampaign';
 $Psr16Adapter = new Psr16Adapter('Files');
 
 if (!$Psr16Adapter->has($key)) {
-    if (is_null($vanity) && !is_null($slug))
+    if (is_null($vanity) || is_null($slug))
     {
       echo json_encode(getRelay());
       die;
