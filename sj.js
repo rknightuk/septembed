@@ -4,57 +4,57 @@ const septembedParams = Object.fromEntries(septembedUrlParams.entries())
 
 const septembedStylesheet = `
 .sj-container {
-    padding:10px;
-    border-radius:20px;
-    display:block;
+    padding:10px!important;
+    border-radius:20px!important;
+    display:block!important;
     text-decoration:none!important;
-    transition: background 1s ease;
+    transition: background 1s ease!important;
 }
 
 .sj-container:hover {
-    background: #ffc000;
+    background: #ffc000!important;
 }
 
 .sj-subtitle {
-    font-size: 0.9em;
+    font-size: 0.9em!important;
 }
 .sj-progress {
-    font-size: 0.9em;
-    box-sizing:border-box;
-    padding-left:10px;
-    height:100%;
-    background:black;
-    border-top-left-radius:15px;
-    border-bottom-left-radius:15px;
-    display:flex;
-    align-items: center;
-    color: white;
+    font-size: 0.9em!important;
+    box-sizing:border-box!important;
+    padding-left:10px!important;
+    height:100%!important;
+    background:black!important;
+    border-top-left-radius:15px!important;
+    border-bottom-left-radius:15px!important;
+    display:flex!important;
+    align-items: center!important;
+    color: white!important;
 }
 
 .sj-progress-text {
-    position: absolute;
-    top: 3px;
-    right: 0;
-    left: 5px;
-    bottom: 0;
-    color: white;
-    text-align: left;
+    position: absolute!important;
+    top: 3px!important;
+    right: 0!important;
+    left: 5px!important;
+    bottom: 0!important;
+    color: white!important;
+    text-align: left!important;
 }
 `
 
 const septembedDarkMode = `
 .sj-container {
-    background:black;
-    color:white;
-    border: 2px solid white;
+    background:black!important;
+    color:white!important;
+    border: 2px solid white!important;
 }
 `
 
 const septembedLightMode = `
 .sj-container {
-    background: #fddb73;
-    color:black;
-    border: 2px solid #ffc000;
+    background: #fddb73!important;
+    color:black!important;
+    border: 2px solid #ffc000!important;
 }
 `
 
