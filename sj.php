@@ -728,7 +728,7 @@ if (!$Psr16Adapter->has($key)) {
 
     $data = [
         'title' => $data['data']['campaign']['name'],
-        'url' => sprintf('https://tiltify.com/@%s/%s', $data['data']['campaign']['user']['username'], $data['data']['campaign']['slug']),
+        'url' => sprintf('https://tiltify.com/%s/%s', $vanity, $slug),
         'goal' => $currency . $goal,
         'raised' => $currency . $raised,
         'percentage' => ($goal > 0 && $raised > 0) ? number_format((($raised / $goal) * 100), 2) : null,
