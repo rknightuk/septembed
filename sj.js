@@ -102,6 +102,7 @@ fetch(septembedPath)
     progress.className = 'sj-progress'
     // progress.innerHTML = ` ${data.raised} &bull; ${data.percentage}%`
     progress.style = `width:${data.percentage}%;`
+    progress.style = `max-width:100%;`
 
     progressText = document.createElement('div')
     progressText.className = 'sj-progress-text'
